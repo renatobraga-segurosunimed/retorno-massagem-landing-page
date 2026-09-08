@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
 import { Logo } from "@/components/Logo";
-import { useAuth } from "@/hooks/use-auth";
-import { useNavigate } from "react-router";
+
+// ─────────────────────────────────────────────────────────────────────────
+// 🔗 LINK DE COMPRA — troque pela URL real do seu checkout
+//    (Hotmart, Kiwify, Stripe, Mercado Pago, WhatsApp comercial, etc.)
+// ─────────────────────────────────────────────────────────────────────────
+const BUY_URL =
+  "https://wa.me/5511999999999?text=" +
+  encodeURIComponent(
+    "Olá! Quero comprar o sistema Retorno Massagem 💚",
+  );
 
 function Reveal({
   children,
@@ -119,8 +127,8 @@ const STEPS = [
 
 const FAQS = [
   {
-    q: "Como funciona o teste gratuito?",
-    a: "Você tem acesso completo a todos os recursos durante o período de teste, sem precisar cadastrar cartão de crédito.",
+    q: "Como funciona a compra do sistema?",
+    a: "O acesso é liberado imediatamente após a confirmação do pagamento. Você recebe seu login e já pode cadastrar seus clientes no mesmo dia.",
   },
   {
     q: "O sistema é fácil de usar para quem não entende de tecnologia?",
@@ -131,8 +139,8 @@ const FAQS = [
     a: "Com certeza. O sistema é 100% responsivo e funciona perfeitamente no navegador do seu smartphone (iPhone ou Android).",
   },
   {
-    q: "Como faço para cadastrar meus clientes atuais?",
-    a: "O cadastro é rápido e leva menos de um minuto por cliente. Você pode ir cadastrando conforme atende ou adicionar sua base gradualmente.",
+    q: "Consigo testar antes de comprar?",
+    a: "Sim! Você pode testar gratuitamente por 30 dias, sem cartão de crédito, e só compra se gostar do resultado na sua rotina.",
   },
   {
     q: "Preciso instalar algum programa pesado no computador?",
@@ -167,10 +175,6 @@ const WEEK = [
 ];
 
 export default function Landing() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-  const startHref = isAuthenticated ? "/dashboard" : "/auth?returnTo=%2Fdashboard";
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ── Header ─────────────────────────────────────────────────── */}
@@ -194,19 +198,13 @@ export default function Landing() {
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            {!isAuthenticated && (
-              <a
-                href="/auth?returnTo=%2Fdashboard"
-                className="whitespace-nowrap px-2 py-1 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
-              >
-                Entrar
-              </a>
-            )}
             <a
-              href={startHref}
+              href={BUY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_4px_20px_-2px_rgba(27,77,62,0.16)] transition-all hover:bg-primary-container hover:text-on-primary-container"
             >
-              {isAuthenticated ? "Abrir meu painel" : "Começar gratuitamente"}
+              Comprar o sistema
             </a>
           </div>
         </div>
@@ -255,10 +253,12 @@ export default function Landing() {
               className="mb-6 flex w-full max-w-md flex-col items-center justify-center gap-4 sm:flex-row"
             >
               <a
-                href={startHref}
+                href={BUY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:bg-primary-container sm:w-auto"
               >
-                Começar gratuitamente
+                Comprar o sistema
                 <Icon name="arrow_forward" className="text-lg" />
               </a>
               <a
@@ -341,11 +341,7 @@ export default function Landing() {
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {[
-                    {
-                      icon: "people",
-                      label: "Clientes ativos",
-                      value: "84",
-                    },
+                    { icon: "people", label: "Clientes ativos", value: "84" },
                     {
                       icon: "self_improvement",
                       label: "Atendimentos no mês",
@@ -450,11 +446,13 @@ export default function Landing() {
                         </div>
                       </div>
                       <a
-                        href={startHref}
+                        href={BUY_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 self-start rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary-container sm:self-auto"
                       >
                         <Icon name="chat" className="text-base" />
-                        Ver lembretes no painel
+                        Enviar mensagem pelo WhatsApp
                       </a>
                     </div>
                   </div>
@@ -590,7 +588,10 @@ export default function Landing() {
         </section>
 
         {/* ── 5. DEMONSTRAÇÃO ─────────────────────────────────────── */}
-        <section id="demonstracao" className="w-full scroll-mt-24 py-16 lg:py-24">
+        <section
+          id="demonstracao"
+          className="w-full scroll-mt-24 py-16 lg:py-24"
+        >
           <div className="mx-auto w-full max-w-7xl px-5 lg:px-12">
             <Reveal className="mx-auto mb-12 max-w-3xl text-center">
               <span className="mb-2 block text-sm font-semibold uppercase tracking-wider text-secondary">
@@ -723,12 +724,9 @@ export default function Landing() {
                           Completou 21 dias da última drenagem
                         </p>
                       </div>
-                      <a
-                        href={startHref}
-                        className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary-container"
-                      >
+                      <span className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground">
                         Lembrar
-                      </a>
+                      </span>
                     </div>
                     <div className="flex items-center justify-between rounded-xl bg-muted p-4">
                       <div>
@@ -739,12 +737,9 @@ export default function Landing() {
                           Completou 30 dias de massagem desportiva
                         </p>
                       </div>
-                      <a
-                        href={startHref}
-                        className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary-container"
-                      >
+                      <span className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground">
                         Lembrar
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -771,7 +766,9 @@ export default function Landing() {
                       >
                         <span
                           className={`block text-[11px] font-semibold ${
-                            d.today ? "font-bold text-primary" : "text-secondary"
+                            d.today
+                              ? "font-bold text-primary"
+                              : "text-secondary"
                           }`}
                         >
                           {d.d}
@@ -931,7 +928,10 @@ export default function Landing() {
         </section>
 
         {/* ── 8. FAQ ──────────────────────────────────────────────── */}
-        <section id="duvidas" className="w-full scroll-mt-24 bg-muted py-16 lg:py-24">
+        <section
+          id="duvidas"
+          className="w-full scroll-mt-24 bg-muted py-16 lg:py-24"
+        >
           <div className="mx-auto w-full max-w-3xl px-5 lg:px-12">
             <Reveal className="mb-12 text-center">
               <span className="mb-2 block text-sm font-semibold uppercase tracking-wider text-secondary">
@@ -964,7 +964,7 @@ export default function Landing() {
         </section>
 
         {/* ── 9. CTA FINAL ────────────────────────────────────────── */}
-        <section id="cadastro" className="w-full scroll-mt-24 py-16 lg:py-24">
+        <section id="comprar" className="w-full scroll-mt-24 py-16 lg:py-24">
           <div className="mx-auto w-full max-w-7xl px-5 lg:px-12">
             <Reveal>
               <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary-container to-secondary p-12 text-center shadow-xl lg:p-24">
@@ -980,13 +980,16 @@ export default function Landing() {
                     tranquila.
                   </p>
                   <a
-                    href={startHref}
+                    href={BUY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="mb-4 inline-flex items-center justify-center rounded-xl bg-card px-12 py-4 font-bold text-primary shadow-lg transition-all hover:bg-muted"
                   >
-                    {isAuthenticated ? "Abrir meu painel" : "Começar gratuitamente"}
+                    Comprar o sistema agora
                   </a>
                   <p className="text-xs font-semibold text-primary-fixed-dim">
-                    Sem compromisso. Comece em menos de 2 minutos.
+                    Teste grátis de 30 dias • Sem cartão de crédito • Acesso
+                    imediato
                   </p>
                 </div>
               </div>

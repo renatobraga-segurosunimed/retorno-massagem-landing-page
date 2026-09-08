@@ -32,36 +32,8 @@ const schema = defineSchema(
       role: v.optional(roleValidator), // role of the user. do not remove
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
-    // ── Retorno Massagem ────────────────────────────────────────────────
-    // Clientes do massoterapeuta (scoped to the signed-in professional)
-    clients: defineTable({
-      userId: v.id("users"),
-      name: v.string(),
-      phone: v.optional(v.string()),
-      focusAreas: v.optional(v.string()),
-      notes: v.optional(v.string()),
-      preferredOil: v.optional(v.string()),
-      pressure: v.optional(v.string()),
-      recurrenceDays: v.number(), // suggested interval between sessions
-      nextReturnDueAt: v.number(), // suggested date for the next return (epoch ms)
-      archived: v.optional(v.boolean()),
-    })
-      .index("by_user", ["userId"])
-      .index("by_user_archived", ["userId", "archived"]),
+    // add other tables here
 
-    // Atendimentos (sessions) — when one is created the client's nextReturnDueAt is advanced
-    sessions: defineTable({
-      userId: v.id("users"),
-      clientId: v.id("clients"),
-      performedAt: v.number(), // epoch ms
-      technique: v.string(),
-      oilUsed: v.optional(v.string()),
-      durationMinutes: v.number(),
-      sessionNotes: v.optional(v.string()),
-    })
-      .index("by_user", ["userId"])
-      .index("by_user_performedAt", ["userId", "performedAt"])
-      .index("by_client", ["clientId"]),
   },
   {
     schemaValidation: false,
